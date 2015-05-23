@@ -54,7 +54,7 @@
         <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
         <property name="mapperLocations">
             <array>
-                <value>classpath*:mybatis/sqlmap/testuser/*.xml</value>
+                <value>classpath*:mybatis/sqlmap/snort/*.xml</value>
             </array>
         </property>
     </bean>

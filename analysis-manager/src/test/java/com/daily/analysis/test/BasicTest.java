@@ -9,7 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Created by dailinyi on 15/5/13.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/spring.xml")
+@ContextConfiguration(locations = "classpath:spring/*.xml")
+//@ContextConfiguration(locations = {"file: webapp/WEB-INF/web.xml"})
 public class BasicTest {
     @Before
     public void before(){

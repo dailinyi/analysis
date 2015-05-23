@@ -24,9 +24,17 @@
             </list>
         </property>
     </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"
+          p:ignoreDefaultModelOnRedirect="true" >
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
 
 
     <!-- 对模型视图添加前后缀 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+          p:prefix="/WEB-INF/pages/" p:suffix=".jsp"/>
 </beans>
