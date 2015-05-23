@@ -1,6 +1,5 @@
 package com.daily.analysis.controller;
 
-import com.daily.analysis.exception.ConfigErrorException;
 import com.daily.analysis.model.pojo.AnaConfig;
 import com.daily.analysis.service.CommandService;
 import com.daily.analysis.service.ConfigService;
