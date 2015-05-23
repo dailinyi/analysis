@@ -24,8 +24,8 @@
                         <li>
                             <span>snort</span>
                             <ul data-options="state:'closed'">
-                                <li><span><a href="##" url="<%=basePath%>/config/snortConfList.do?serverName=test" name="aaa">配置文件</a></span></li>
-                                <li><span>规则库</span></li>
+                                <li><span><a href="##" url="<%=basePath%>/config/snortConfList.do?serverName=test">配置文件</a></span></li>
+                                <li><span><a href="##" url="<%=basePath%>/config/listRules.do?serverName=test" >规则库</a></span></li>
                             </ul>
                         </li>
                         <li>
@@ -65,7 +65,7 @@
                 <li><span>防御动作</span></li>
             </ul>
         </div>
-        <div title="FTP(172.16.1.3)" style="overflow:auto;padding:10px;">
+        <div title="FTP(172.16.1.3)" style="overflow:auto;padding:10px;" >
             <ul class="easyui-tree">
                 <li>
                     <span>基本信息</span>

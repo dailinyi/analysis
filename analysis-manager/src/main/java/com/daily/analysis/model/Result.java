@@ -8,6 +8,7 @@ public class Result {
 
     private int status;
     private String errorMsg;
+    private String content;
 
     public int getStatus() {
         return status;
@@ -23,6 +24,14 @@ public class Result {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override

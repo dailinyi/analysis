@@ -12,6 +12,7 @@
     <title>欢迎你!</title>
 </head>
 <body style="margin-left:auto;margin-right:auto;">
+<div style="margin:30px 0;"></div>
     <center>
     <form id="viewForm">
         <input id="serverName" type="hidden" name="serverName" value="<%=request.getAttribute("serverName")%>">

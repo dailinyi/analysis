@@ -12,24 +12,61 @@
     <title>欢迎你!</title>
 </head>
 <body>
-    <div class="easyui-layout" style="width:100%;height:100%">
-        <%--<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>--%>
-        <div data-options="region:'west',split:true" title="West" style="width:200px;">
 
+<div style="margin:0px 0;"></div>
 
-        </div>
-        <div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
-            <table class="easyui-datagrid"
-                   data-options="url:'list1.do',method:'get',border:false,singleSelect:true,fit:true,fitColumns:true">
-                <thead>
-                <tr>
-                    <th data-options="field:'sigGid'" >rules file</th>
+<table class="easyui-datagrid" title="Basic DataGrid" style="width:100%"
+       url="<%=basePath%>/config/listRulesAjax.do?serverName=<%=request.getAttribute("serverName")%>"
+       data-options="rownumbers:true,singleSelect:true,method:'get'">
+    <thead>
+    <tr>
+        <th field="fileName" width="40%" data-options="formatter:rowformater">规则库文件名称</th>
+        <th field="mergeDate" width="30%" align="right">规则库文件修改日期</th>
+        <th field="fileSize" width="30%" >规则库文件大小</th>
 
+    </tr>
+    </thead>
+</table>
 
-                </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
+<div id="w" class="easyui-window" title="规则库文件" data-options="modal:true,inline:true,closed:true,iconCls:'icon-save'" style="width:80%;height:80%;padding:10px;">
+    The window content.
+</div>
+
+<script type="application/javascript">
+        function rowformater(value,row,index){
+
+            if(value != null && value != '[total]'){
+
+                var cli = "openPanel('"+value+"')";
+                return '<a href="###" onclick="'+cli+'">'+value+'</a>';
+            } else {
+                return value;
+            }
+        }
+
+        function openPanel(value){
+            var url = "<%=basePath%>/config/ruleConf.do?serverName=<%=request.getAttribute("serverName")%>&ruleName="+value;
+            $.post(url,{},function(data){
+                var result = "";
+                var resultJson = eval(data);
+                if(resultJson.status == 0){
+                    $("#w").html("<pre>"+resultJson.content+"</pre>");
+                    $('#w').window('open');
+
+                } else {
+                    result = resultJson.errorMsg;
+                    $.messager.show({
+                        title:'操作结果',
+                        msg : result,
+                        showType:'show',
+                        timeout:'3000'
+                    });
+                }
+
+            });
+        }
+
+</script>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.daily.analysis.service;
 
+import com.daily.analysis.model.FileInfo;
 import com.daily.analysis.model.pojo.AnaConfig;
 
 import java.io.IOException;
@@ -18,5 +19,7 @@ public interface CommandService {
 
     void mergeSnortConfig(AnaConfig config,String newConfig) throws IOException;
 
-    List<String> getRulesList(AnaConfig config) throws  IOException;
+    List<FileInfo> getRulesList(AnaConfig config) throws  IOException;
+
+    String getRulesInfo(AnaConfig config,String rulesName) throws  IOException;
 }

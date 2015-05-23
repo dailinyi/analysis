@@ -1,5 +1,6 @@
 package com.daily.analysis.service.impl;
 
+import com.daily.analysis.model.FileInfo;
 import com.daily.analysis.model.pojo.AnaConfig;
 import com.daily.analysis.service.CommandService;
 import com.daily.analysis.utils.PropertiesUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,15 +64,34 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public List<String> getRulesList(AnaConfig config) throws IOException {
-        if (StringUtils.isEmpty(config.getSnortConfUrl())){
-            config.setSnortConfUrl(PropertiesUtils.getProperty("config.default.snort.conf"));
+    public List<FileInfo> getRulesList(AnaConfig config) throws IOException {
+        if (StringUtils.isEmpty(config.getSnortRuleUrl())){
+            config.setSnortRuleUrl(PropertiesUtils.getProperty("config.default.rules.url"));
         }
 
-        StringBuilder command = new StringBuilder().append(" ls ")
-                .append(config.getSnortConfUrl());
+        StringBuilder command = new StringBuilder().append(" ls -lh ")
+                .append(config.getSnortRuleUrl());
 
         String s = SSHUtils.exec(config,command.toString());
-        return Arrays.asList(s.split("\\n"));
+
+        List<String> lines = Arrays.asList(s.split("\\n"));
+        List<FileInfo> result = new ArrayList<FileInfo>();
+        for(String line : lines){
+            result.add(FileInfo.covertToFile(line));
+        }
+        return result;
+    }
+
+    @Override
+    public String getRulesInfo(AnaConfig config, String rulesName) throws IOException {
+        if (StringUtils.isEmpty(config.getSnortRuleUrl())){
+            config.setSnortRuleUrl(PropertiesUtils.getProperty("config.default.rules.url"));
+        }
+        StringBuilder command = new StringBuilder().append(" cat ")
+                .append(config.getSnortRuleUrl()).append("/").append(rulesName);
+
+        String result = SSHUtils.exec(config, command.toString());
+
+        return result;
     }
 }

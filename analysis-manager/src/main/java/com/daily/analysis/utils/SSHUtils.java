@@ -7,6 +7,8 @@ import com.daily.analysis.exception.CommandErrorException;
 import com.daily.analysis.exception.ConnectTimeoutException;
 import com.daily.analysis.model.pojo.AnaConfig;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +18,8 @@ import java.nio.charset.Charset;
  * Created by dailinyi on 15/5/23.
  */
 public class SSHUtils {
+    public static Logger logger = LoggerFactory.getLogger(SSHUtils.class);
+
     public static final int TIMEOUT = Integer.valueOf(PropertiesUtils.getProperty("config.default.server.timeout"));
     public static final String CHARSET = Charset.forName(PropertiesUtils.getProperty("config.default.server.charset"))
             .toString();
@@ -24,50 +28,10 @@ public class SSHUtils {
         return exec(config.getServerIp(),config.getServerUsername(),config.getServerPassword(),command);
     }
 
-//    public static void upload(String ip,String user,String password,String command) throws IOException{
-//        Connection con = new Connection(ip);
-//        ConnectionInfo info = null;
-//        SFTPOutputStream  sftp = null ;
-//        InputStream stdOut = null;
-//        InputStream stdErr = null;
-//        String outStr = "";
-//        String outErr = "";
-//        //连接超时
-//        try {
-//            info = con.connect();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new ConnectTimeoutException();
-//        }
-//
-//        //登录失败
-//        try {
-//            con.authenticateWithPassword(user, password);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new AuthErrorException();
-//        }
-//
-//        //无法打开session
-//        try {
-//            sftp.write(new byte[]);
-//
-//
-//            if (StringUtils.isNotBlank(outErr)){
-//                throw new CommandErrorException(outErr);
-//            }
-//
-//            return outStr;
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw new CommandErrorException() ;
-//        }
-//
-//    }
+
 
     public static String exec(String ip,String user,String password,String command) throws IOException{
-
+        logger.info("SSH:ip:"+ip + ",command:" + command);
         Connection con = new Connection(ip);
         ConnectionInfo info = null;
         Session session = null ;
@@ -104,7 +68,10 @@ public class SSHUtils {
 
             session.waitForCondition(ChannelCondition.EXIT_STATUS, TIMEOUT);
 
+
+            logger.info("SSH OUTPUT : " + outStr);
             if (StringUtils.isNotBlank(outErr)){
+                logger.error("SSH OUTPUT : " + outErr);
                 throw new CommandErrorException(outErr);
             }
 
@@ -122,10 +89,7 @@ public class SSHUtils {
         byte[] b = new byte[1024];
         StringBuilder sb = new StringBuilder();
         for   (int   n;   (n   =   in.read(b))   !=   -1;)   {
-
-
             sb.append(new String(b,0,n,charset));
-
         }
 
         return sb.toString();
