@@ -3,7 +3,6 @@ package com.daily.analysis.test;
 import ch.ethz.ssh2.*;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -27,7 +26,7 @@ public class Ssh2Test {
         ConnectionInfo info = con.connect();
         boolean result = con.authenticateWithPassword("root", "dayongfalw");
         Session session = con.openSession();
-        session.execCommand("lss");
+        session.execCommand("ls");
             stdOut = new StreamGobbler(session.getStdout());
             outStr = processStream(stdOut, charset);
 
@@ -47,11 +46,15 @@ public class Ssh2Test {
     }
 
     private String processStream(InputStream in, String charset) throws Exception {
-        byte[] buf = new byte[1024];
+        byte[] b = new byte[1024];
         StringBuilder sb = new StringBuilder();
-        while (in.read(buf) != -1) {
-            sb.append(new String(buf, charset));
+        for   (int   n;   (n   =   in.read(b))   !=   -1;)   {
+
+
+            sb.append(new String(b,0,n));
+
         }
+        System.out.println(sb.toString().split("\\n").length);
         return sb.toString();
     }
 

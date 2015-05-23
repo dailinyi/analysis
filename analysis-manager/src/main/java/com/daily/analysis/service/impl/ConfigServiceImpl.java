@@ -30,4 +30,6 @@ public class ConfigServiceImpl implements ConfigService {
         }
         return configs.get(0);
     }
+
+
 }

@@ -13,23 +13,81 @@
     <title></title>
 </head>
 <body>
-    <div class="easyui-accordion" data-options="multiple:true" style="width:500px;height1:300px;">
-        <div title="预警详情" style="overflow:auto;padding:10px;">
-            <p><a href="##"> >172.16.1.1 </a> </p>
-            <p><a href="##"> >172.16.1.2 </a> </p>
-            <p><a href="##"> >172.16.1.3 </a> </p>
-            <p><a href="##"> +添加配置 </a> </p>
+
+<div class="easyui-accordion" data-options="multiple:true">
+
+        <div title="GATEWAY(172.16.1.1)" style="overflow:auto;padding:10px;">
+            <ul class="easyui-tree">
+                <li>
+                    <span>基本信息</span>
+                    <ul data-options="state:'closed'">
+                        <li>
+                            <span>snort</span>
+                            <ul data-options="state:'closed'">
+                                <li><span><a href="##" url="<%=basePath%>/config/snortConfList.do?serverName=test" name="aaa">配置文件</a></span></li>
+                                <li><span>规则库</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>guardian</span>
+                            <ul data-options="state:'closed'">
+                                <li><span>配置文件</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><span>报警信息</span></li>
+                <li><span>防御动作</span></li>
+            </ul>
+
         </div>
-        <div title="防御动作" style="overflow:auto;padding:10px;">
-            <p><a href="##"> >172.16.1.2 </a> </p>
-            <p><a href="##"> >172.16.1.3 </a> </p>
-            <p><a href="##"> +添加配置 </a> </p>
+        <div title="HTTP(172.16.1.2)" style="overflow:auto;padding:10px;">
+            <ul class="easyui-tree">
+                <li>
+                    <span>基本信息</span>
+                    <ul data-options="state:'closed'">
+                        <li>
+                            <span>snort</span>
+                            <ul data-options="state:'closed'">
+                                <li><span>配置文件</span></li>
+                                <li><span>规则库</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>guardian</span>
+                            <ul data-options="state:'closed'">
+                                <li><span>配置文件</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><span>报警信息</span></li>
+                <li><span>防御动作</span></li>
+            </ul>
         </div>
-        <div title="基本配置" style="overflow:auto;padding:10px;">
-            <p><a href="##"> >172.16.1.1 </a> </p>
-            <p><a href="##"> >172.16.1.2 </a> </p>
-            <p><a href="##"> >172.16.1.3 </a> </p>
-            <p><a href="##"> +添加配置 </a> </p>
+        <div title="FTP(172.16.1.3)" style="overflow:auto;padding:10px;">
+            <ul class="easyui-tree">
+                <li>
+                    <span>基本信息</span>
+                    <ul data-options="state:'closed'">
+                        <li>
+                            <span>snort</span>
+                            <ul data-options="state:'closed'">
+                                <li><span>配置文件</span></li>
+                                <li><span>规则库</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>guardian</span>
+                            <ul data-options="state:'closed'">
+                                <li><span>配置文件</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><span>报警信息</span></li>
+                <li><span>防御动作</span></li>
+            </ul>
         </div>
     </div>
 </body>
