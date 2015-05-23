@@ -24,6 +24,48 @@ public class SSHUtils {
         return exec(config.getServerIp(),config.getServerUsername(),config.getServerPassword(),command);
     }
 
+//    public static void upload(String ip,String user,String password,String command) throws IOException{
+//        Connection con = new Connection(ip);
+//        ConnectionInfo info = null;
+//        SFTPOutputStream  sftp = null ;
+//        InputStream stdOut = null;
+//        InputStream stdErr = null;
+//        String outStr = "";
+//        String outErr = "";
+//        //连接超时
+//        try {
+//            info = con.connect();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw new ConnectTimeoutException();
+//        }
+//
+//        //登录失败
+//        try {
+//            con.authenticateWithPassword(user, password);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw new AuthErrorException();
+//        }
+//
+//        //无法打开session
+//        try {
+//            sftp.write(new byte[]);
+//
+//
+//            if (StringUtils.isNotBlank(outErr)){
+//                throw new CommandErrorException(outErr);
+//            }
+//
+//            return outStr;
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw new CommandErrorException() ;
+//        }
+//
+//    }
+
     public static String exec(String ip,String user,String password,String command) throws IOException{
 
         Connection con = new Connection(ip);
@@ -77,11 +119,15 @@ public class SSHUtils {
     }
 
     private static String processStream(InputStream in, String charset) throws IOException {
-        byte[] buf = new byte[1024];
+        byte[] b = new byte[1024];
         StringBuilder sb = new StringBuilder();
-        while (in.read(buf) != -1) {
-            sb.append(new String(buf, charset));
+        for   (int   n;   (n   =   in.read(b))   !=   -1;)   {
+
+
+            sb.append(new String(b,0,n,charset));
+
         }
+
         return sb.toString();
     }
 }

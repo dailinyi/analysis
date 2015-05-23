@@ -3,6 +3,7 @@ package com.daily.analysis.service;
 import com.daily.analysis.model.pojo.AnaConfig;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by dailinyi on 15/5/23.
@@ -13,5 +14,9 @@ public interface CommandService {
      * AnaConfig 是从服务器读取的配置
      * @return
      */
-    public String getSnortConfig(AnaConfig config) throws IOException;
+    String getSnortConfig(AnaConfig config) throws IOException;
+
+    void mergeSnortConfig(AnaConfig config,String newConfig) throws IOException;
+
+    List<String> getRulesList(AnaConfig config) throws  IOException;
 }
