@@ -31,7 +31,7 @@ public class SnortConfigController {
     public String listSnortConf(String serverName){
 //        serverName = "test";
         try {
-            AnaConfig config = configService.getListByName(serverName);
+            AnaConfig config = configService.getConfigByName(serverName);
             String outConf = commandService.getSnortConfig(config);
             return outConf;
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class SnortConfigController {
     public Result merge(String configText ,String serverName, HttpServletRequest request){
        try {
 
-           AnaConfig config = configService.getListByName(serverName);
+           AnaConfig config = configService.getConfigByName(serverName);
            commandService.mergeSnortConfig(config,configText);
 
            return ResultUtils.successResult();
@@ -70,7 +70,7 @@ public class SnortConfigController {
     public List<FileInfo> listRulesAjax(String serverName, HttpServletRequest request){
         try {
 
-            AnaConfig config = configService.getListByName(serverName);
+            AnaConfig config = configService.getConfigByName(serverName);
             List<FileInfo> fileList =  commandService.getRulesList(config);
 
             return fileList;
@@ -92,12 +92,27 @@ public class SnortConfigController {
     public Result listRulesDetail(String serverName,String ruleName, HttpServletRequest request){
         try {
 
-            AnaConfig config = configService.getListByName(serverName);
+            AnaConfig config = configService.getConfigByName(serverName);
             String rulesInfo = commandService.getRulesInfo(config, ruleName);
             Result r = ResultUtils.successResult();
             r.setContent(rulesInfo);
 //            throw new AuthErrorException();
             return r;
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResultUtils.failResult(e.getMessage());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/mergeRuleConf")
+    public Result mergeRules(String ruleName ,String serverName, String content, HttpServletRequest request){
+        try {
+
+            AnaConfig config = configService.getConfigByName(serverName);
+            commandService.mergeRules(config,ruleName,content);
+
+            return ResultUtils.successResult();
         } catch (Exception e){
             e.printStackTrace();
             return ResultUtils.failResult(e.getMessage());

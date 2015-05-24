@@ -26,17 +26,18 @@
                             <ul data-options="state:'closed'">
                                 <li><span><a href="##" url="<%=basePath%>/config/snortConfList.do?serverName=test">配置文件</a></span></li>
                                 <li><span><a href="##" url="<%=basePath%>/config/listRules.do?serverName=test" >规则库</a></span></li>
+                                <li><span><a href="##" url="<%=basePath%>/status/snortStatus.do?serverName=test" >服务设置</a></span></li>
                             </ul>
                         </li>
                         <li>
                             <span>guardian</span>
                             <ul data-options="state:'closed'">
-                                <li><span>配置文件</span></li>
+                                <li><span><a href="##" url="<%=basePath%>/config/guardianConf.do?serverName=test">配置文件</a></span></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li><span>报警信息</span></li>
+                <li><span><a href="##" url="<%=basePath%>/alert/list.do?serverName=test">报警信息</a></span></li>
                 <li><span>防御动作</span></li>
             </ul>
 
@@ -51,6 +52,7 @@
                             <ul data-options="state:'closed'">
                                 <li><span>配置文件</span></li>
                                 <li><span>规则库</span></li>
+                                <li><span>服务设置</span></li>
                             </ul>
                         </li>
                         <li>

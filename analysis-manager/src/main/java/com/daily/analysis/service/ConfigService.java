@@ -17,5 +17,5 @@ public interface ConfigService {
      * @return
      * @throws ConfigErrorException 如果服务器配置信息为空,或者不等于一个,则报配置错误异常
      */
-    public AnaConfig getListByName(String serverName) throws ConfigErrorException;
+    public AnaConfig getConfigByName(String serverName) throws ConfigErrorException;
 }

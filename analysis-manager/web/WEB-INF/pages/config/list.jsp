@@ -27,11 +27,20 @@
 <script type="application/javascript">
 
     function submitForm(){
+        $.messager.confirm('是否确定修改?', '修改此配置,需要重启snort后生效.是否确定修改?', function(r){
+            if (r){
+                submit();
+            }
+        });
+    }
+
+    function submit(){
+
         $.post("<%=basePath%>/config/mergeSnortConf.do",{configText:$("#configText").val(),serverName:$("#serverName").val()},function(data){
             var result = "";
             var resultJson = eval(data);
             if(resultJson.status == 0){
-                result = "提交成功!"
+                result = "修改成功!"
             } else {
                 result = resultJson.errorMsg;
             }

@@ -8,7 +8,7 @@ public class Result {
 
     private int status;
     private String errorMsg;
-    private String content;
+    private Object content;
 
     public int getStatus() {
         return status;
@@ -26,11 +26,11 @@ public class Result {
         this.errorMsg = errorMsg;
     }
 
-    public String getContent() {
+    public Object getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(Object content) {
         this.content = content;
     }
 

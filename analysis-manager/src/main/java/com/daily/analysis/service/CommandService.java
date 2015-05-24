@@ -1,6 +1,7 @@
 package com.daily.analysis.service;
 
 import com.daily.analysis.model.FileInfo;
+import com.daily.analysis.model.LogInfo;
 import com.daily.analysis.model.pojo.AnaConfig;
 
 import java.io.IOException;
@@ -22,4 +23,10 @@ public interface CommandService {
     List<FileInfo> getRulesList(AnaConfig config) throws  IOException;
 
     String getRulesInfo(AnaConfig config,String rulesName) throws  IOException;
+
+    String getGuardianConfig(AnaConfig config) throws  IOException;
+
+    List<LogInfo> getAlertList(AnaConfig config) throws IOException;
+
+    void mergeRules(AnaConfig config, String ruleName, String content) throws IOException;
 }

@@ -20,7 +20,7 @@ public class ConfigServiceImpl implements ConfigService {
 
 
     @Override
-    public AnaConfig getListByName(String serverName) throws ConfigErrorException{
+    public AnaConfig getConfigByName(String serverName) throws ConfigErrorException{
         AnaConfigExample example = new AnaConfigExample();
         example.createCriteria().andServerNameEqualTo(serverName);
         List<AnaConfig> configs = configMapper.selectByExample(example);
