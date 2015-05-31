@@ -29,4 +29,20 @@ public interface CommandService {
     List<LogInfo> getAlertList(AnaConfig config) throws IOException;
 
     void mergeRules(AnaConfig config, String ruleName, String content) throws IOException;
+
+    String getGuardianLog(AnaConfig config) throws IOException;
+
+    void setSnortStart(AnaConfig config) throws IOException;
+
+    void setSnortStop(AnaConfig config) throws IOException;
+
+    boolean getSnortStatus(AnaConfig config) throws IOException;
+
+    String setSnortLog(AnaConfig config) throws IOException;
+
+    void setGuardianStart(AnaConfig config) throws IOException;
+
+    void setGuardianStop(AnaConfig config) throws IOException;
+
+    boolean getGuardianStatus(AnaConfig config) throws IOException;
 }

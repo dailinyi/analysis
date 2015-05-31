@@ -48,10 +48,14 @@
         $(function() {
             $('.tree-title a').click(function () {
 
-
-//                var title = $(this).val();
-                var title = $(this)[0].innerText;
+                var title = $(this).attr("id");
                 var url = $(this).attr("url");
+                //如果存在则直接切换到此tab,并刷新
+                if($('#tabs').tabs('exists',title)){
+                    $('#tabs').tabs('getTab',title).panel('refresh');
+                    $('#tabs').tabs('select',title);
+                    return;
+                }
 
                 $('#tabs').tabs('add', {
                     title: title ,

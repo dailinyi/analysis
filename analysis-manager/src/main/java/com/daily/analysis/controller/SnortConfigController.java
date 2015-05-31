@@ -119,7 +119,22 @@ public class SnortConfigController {
         }
     }
 
+    @RequestMapping("/snortLog")
+    public String logSnort(String serverName,HttpServletRequest request){
+        try {
 
+            AnaConfig serverConfig = configService.getConfigByName(serverName);
+            String result = commandService.setSnortLog(serverConfig);
+
+            request.setAttribute("config",result);
+            request.setAttribute("serverName",serverName);
+
+            return "log/snortList";
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 

@@ -26,8 +26,13 @@ public class CommandServiceImpl implements CommandService {
     protected static final String TEMP_URL = PropertiesUtils.getProperty("config.tmp.url");
     protected static final String RULES_URL = PropertiesUtils.getProperty("config.default.rules.url");
     protected static final String GUARDIAN_CONF_URL = PropertiesUtils.getProperty("config.default.guardian.conf");
+    protected static final String GUARDIAN_LOG_URL = PropertiesUtils.getProperty("config.default.guardian.log");
     protected static final String ALERT_URL = PropertiesUtils.getProperty("config.default.alert.url");
-    protected static final Integer ALERT_LINE = Integer.valueOf(PropertiesUtils.getProperty("config.default.alert.line"));
+    protected static final String GUARDIAN_START = PropertiesUtils.getProperty("config.default.guardian.start");
+    protected static final String GUARDIAN_STOP = PropertiesUtils.getProperty("config.default.guardian.stop");
+    protected static final String SNORT_START = PropertiesUtils.getProperty("config.default.snort.start");
+    protected static final String SNORT_STOP = PropertiesUtils.getProperty("config.default.snort.stop");
+    protected static final Integer DEFAULT_LINE = Integer.valueOf(PropertiesUtils.getProperty("config.default.line"));
     @Override
     public String getSnortConfig(AnaConfig config) throws IOException{
         if (StringUtils.isEmpty(config.getSnortConfUrl())){
@@ -81,7 +86,7 @@ public class CommandServiceImpl implements CommandService {
         }
 
         StringBuilder command = new StringBuilder().append(" ls -lh ")
-                .append(config.getSnortRuleUrl());
+                .append(config.getSnortRuleUrl()).append(" |grep .rules ");
 
         String s = SSHUtils.exec(config,command.toString());
 
@@ -107,6 +112,18 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
+    public String getGuardianLog(AnaConfig config) throws IOException {
+
+        if (StringUtils.isEmpty(config.getGuardianLogUrl())){
+            config.setGuardianLogUrl(GUARDIAN_LOG_URL);
+        }
+
+        StringBuilder command = new StringBuilder().append(" cat ")
+                .append(config.getGuardianLogUrl());
+
+        return SSHUtils.exec(config,command.toString());
+    }
+    @Override
     public String getGuardianConfig(AnaConfig config) throws IOException {
 
         if (StringUtils.isEmpty(config.getGuarduanConfUrl())){
@@ -122,7 +139,7 @@ public class CommandServiceImpl implements CommandService {
     @Override
     public List<LogInfo> getAlertList(AnaConfig config) throws IOException {
         if (config.getAlertDefaultLine() == null || config.getAlertDefaultLine() ==0){
-            config.setAlertDefaultLine(ALERT_LINE);
+            config.setAlertDefaultLine(DEFAULT_LINE);
         }
         if (StringUtils.isBlank(config.getAlertUrl())){
             config.setAlertUrl(ALERT_URL);
@@ -170,6 +187,100 @@ public class CommandServiceImpl implements CommandService {
     }
 
 
+    @Override
+    public void setSnortStart(AnaConfig config) throws IOException {
+        if (StringUtils.isEmpty(config.getSnortStartCmd())){
+            config.setSnortStartCmd(SNORT_START);
+        }
+        if (StringUtils.isEmpty(config.getSnortConfUrl())){
+            config.setSnortConfUrl(SNORT_CONF_URL);
+        }
+
+        //替换${snortConfUrl}为真实路径
+        config.setSnortStartCmd(config.getSnortStartCmd().replace("#{snortConfUrl}",config.getSnortConfUrl()));
+
+        String fileName = "snort.log."+ new DateTime().toLocalDateTime();
+
+        StringBuilder cmd = new StringBuilder();
+        cmd.append(" nohup ").append(config.getSnortStartCmd()).append(" > ")
+        .append(TEMP_URL).append("/snortLog/").append(fileName).append(" 2>&1 &");
+
+        SSHUtils.exec(config, cmd.toString());
+
+    }
+
+    @Override
+    public void setSnortStop(AnaConfig config) throws IOException {
+        if (StringUtils.isEmpty(config.getSnortStopCmd())){
+            config.setSnortStopCmd(SNORT_STOP);
+        }
+
+
+        SSHUtils.exec(config,config.getSnortStopCmd());
+
+    }
+
+    @Override
+    public boolean getSnortStatus(AnaConfig config) throws IOException {
+        String getSnortStatusCmd = "ps -ef | grep snort";
+        String returnResult = SSHUtils.exec(config,getSnortStatusCmd);
+        return returnResult.split("\\n").length >= 3;
+    }
+
+    @Override
+    public String setSnortLog(AnaConfig config) throws IOException {
+        if (config.getSnortLogDefaultLine() == null || config.getSnortLogDefaultLine() == 0){
+            config.setSnortLogDefaultLine(DEFAULT_LINE);
+        }
+
+        String cmd = "cat "+TEMP_URL+"/snortLog/* |tail -n " + config.getSnortLogDefaultLine();
+
+        return SSHUtils.exec(config,cmd);
+
+    }
+
+
+    @Override
+    public void setGuardianStart(AnaConfig config) throws IOException {
+        if (StringUtils.isEmpty(config.getGuardianStartCmd())){
+            config.setGuardianStartCmd(GUARDIAN_START);
+        }
+        if (StringUtils.isEmpty(config.getGuarduanConfUrl())){
+            config.setSnortConfUrl(GUARDIAN_CONF_URL);
+        }
+
+        //替换${guardianConfUrl}为真实路径
+        config.setGuardianStartCmd(config.getGuardianStartCmd().replace("#{guardianConfUrl}",config.getGuarduanConfUrl()));
+
+        String fileName = "guardian.log."+ new DateTime().toLocalDateTime();
+
+        StringBuilder cmd = new StringBuilder();
+        cmd.append(" nohup ").append(config.getGuardianStartCmd()).append(" > ")
+                .append(TEMP_URL).append("/guardianLog/").append(fileName).append(" 2>&1 &");
+
+        SSHUtils.exec(config, cmd.toString());
+
+    }
+
+    @Override
+    public void setGuardianStop(AnaConfig config) throws IOException {
+        if (StringUtils.isEmpty(config.getGuardianStopCmd())){
+            config.setGuardianStopCmd(GUARDIAN_STOP);
+        }
+
+
+        SSHUtils.exec(config,config.getGuardianStopCmd());
+
+    }
+
+    @Override
+    public boolean getGuardianStatus(AnaConfig config) throws IOException {
+        String getGuardianStatusCmd = "ps -ef | grep guardian";
+        String returnResult = SSHUtils.exec(config,getGuardianStatusCmd);
+        return returnResult.split("\\n").length >= 3;
+    }
+
+
     private List<LogInfo> splitAlertLogToLogInfoList(String result){
 
         List<LogInfo> logInfos = new ArrayList<LogInfo>();
@@ -207,4 +318,6 @@ public class CommandServiceImpl implements CommandService {
 
         return logInfos;
     }
+
+
 }

@@ -41,19 +41,25 @@ public class FileInfo {
 
     public static FileInfo covertToFile(String dirString){
         FileInfo file = new FileInfo();
-        String[] dirElements = dirString.split(" ");
-        //格式 : drwxr-xr-x 26 1044 1044  12K May 22 23:54 ruby-2.2.2
-        //或者 : total 16M
-        if (dirElements .length == 2){//说明是total结构
+        String[] dirElements = dirString.split("\\s+");
+
+        if (dirElements .length == 2){//鎬昏
+            //total 16M
             file.setFileName("["+dirElements[0]+"]");
             file.setFileSize(dirElements[1]);
             file.setMergeDate("-");
-        } else if (dirElements.length == 9){
+        } else if (dirElements.length == 9 ){
+            //drwxr-xr-x 26 1044 1044  12K May 22 23:54 ruby-2.2.2
             file.setFileName(dirElements[8]);
             file.setFileSize(dirElements[4]);
             file.setMergeDate(dirElements[5] + " " + dirElements[6] + " " + dirElements[7]);
+
+        } else if (dirElements.length == 8){
+            //-rw-r--r-- 1 root root 5.8K 05-16 21:23 attack-responses.rules
+            file.setFileName(dirElements[7]);
+            file.setFileSize(dirElements[4]);
+            file.setMergeDate(dirElements[5] + " " + dirElements[6]);
         }
-        //其他格式不予处理
         return file;
     }
 }
