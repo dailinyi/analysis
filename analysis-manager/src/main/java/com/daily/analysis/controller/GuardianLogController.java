@@ -21,7 +21,7 @@ public class GuardianLogController {
     private CommandService commandService;
 
 
-    @RequestMapping("/guardianLog")
+    @RequestMapping("/guardianLogAction")
     public String list(String serverName ,HttpServletRequest request){
         try {
             AnaConfig config = configService.getConfigByName(serverName);
@@ -37,6 +37,23 @@ public class GuardianLogController {
         }
 
         return "common/error";
+    }
+
+    @RequestMapping("/guardianLog")
+    public String logSnort(String serverName,HttpServletRequest request){
+        try {
+
+            AnaConfig serverConfig = configService.getConfigByName(serverName);
+            String result = commandService.setGuardianLogs(serverConfig);
+
+            request.setAttribute("config",result);
+            request.setAttribute("serverName",serverName);
+
+            return "log/guardianLogList";
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

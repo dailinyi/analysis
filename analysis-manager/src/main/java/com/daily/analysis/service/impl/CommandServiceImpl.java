@@ -121,7 +121,16 @@ public class CommandServiceImpl implements CommandService {
         StringBuilder command = new StringBuilder().append(" cat ")
                 .append(config.getGuardianLogUrl());
 
-        return SSHUtils.exec(config,command.toString());
+        String out = SSHUtils.exec(config,command.toString());
+        List<String> splitList = Arrays.asList(out.split("\\n"));
+        Collections.reverse(splitList);
+
+        StringBuilder result = new StringBuilder();
+        for (String temp : splitList){
+            result.append(temp).append("\n");
+        }
+
+        return result.toString();
     }
     @Override
     public String getGuardianConfig(AnaConfig config) throws IOException {
@@ -156,7 +165,7 @@ public class CommandServiceImpl implements CommandService {
     @Override
     public void mergeRules(AnaConfig config, String ruleName, String content) throws IOException {
         if (StringUtils.isEmpty(config.getSnortRuleUrl())){
-            config.setSnortConfUrl(RULES_URL);
+            config.setSnortRuleUrl(RULES_URL);
         }
         if (StringUtils.isBlank(content)){
             return;
@@ -239,6 +248,18 @@ public class CommandServiceImpl implements CommandService {
 
     }
 
+    @Override
+    public String setGuardianLogs(AnaConfig config) throws IOException {
+        if (config.getGuardianLogDefaultLine() == null || config.getGuardianLogDefaultLine() == 0){
+            config.setGuardianLogDefaultLine(DEFAULT_LINE);
+        }
+
+        String cmd = "cat "+TEMP_URL+"/guardianLog/* |tail -n " + config.getGuardianLogDefaultLine();
+
+        return SSHUtils.exec(config,cmd);
+
+    }
+
 
     @Override
     public void setGuardianStart(AnaConfig config) throws IOException {
@@ -250,7 +271,7 @@ public class CommandServiceImpl implements CommandService {
         }
 
         //替换${guardianConfUrl}为真实路径
-        config.setGuardianStartCmd(config.getGuardianStartCmd().replace("#{guardianConfUrl}",config.getGuarduanConfUrl()));
+        config.setGuardianStartCmd(config.getGuardianStartCmd().replace("#{guardianConfUrl}", config.getGuarduanConfUrl()));
 
         String fileName = "guardian.log."+ new DateTime().toLocalDateTime();
 
@@ -277,7 +298,7 @@ public class CommandServiceImpl implements CommandService {
     public boolean getGuardianStatus(AnaConfig config) throws IOException {
         String getGuardianStatusCmd = "ps -ef | grep guardian";
         String returnResult = SSHUtils.exec(config,getGuardianStatusCmd);
-        return returnResult.split("\\n").length >= 3;
+        return returnResult.split("\\n").length > 3;
     }
 
 

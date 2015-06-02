@@ -40,6 +40,8 @@ public interface CommandService {
 
     String setSnortLog(AnaConfig config) throws IOException;
 
+    String setGuardianLogs(AnaConfig config) throws IOException;
+
     void setGuardianStart(AnaConfig config) throws IOException;
 
     void setGuardianStop(AnaConfig config) throws IOException;
