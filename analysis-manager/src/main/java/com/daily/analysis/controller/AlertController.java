@@ -51,4 +51,19 @@ public class AlertController {
         return null;
     }
 
+    @RequestMapping("/listWall")
+    public String listWall(String serverName , HttpServletRequest request){
+        try {
+            AnaConfig config = configService.getConfigByName(serverName);
+            String iptablesConfig = commandService.getIptablesRules(config);
+
+            request.setAttribute("config",iptablesConfig);
+            request.setAttribute("serverName",serverName);
+            return "alert/listWall";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "common/error";
+    }
+
 }

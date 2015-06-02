@@ -78,7 +78,11 @@
                     $.messager.show({
                         title:'操作结果',
                         msg : result,
-                        showType:'show',
+                        showType:'fade',
+                        style:{
+                            right:'',
+                            bottom:''
+                        },
                         timeout:'3000'
                     });
                 }
@@ -92,7 +96,11 @@
                 $.messager.show({
                     title:'操作结果',
                     msg : '页面获取不到此文件,请联系管理员!',
-                    showType:'show',
+                    showType:'fade',
+                    style:{
+                        right:'',
+                        bottom:''
+                    },
                     timeout:'3000'
                 });
             }
@@ -110,7 +118,11 @@
                 $.messager.show({
                     title:'操作结果',
                     msg : result,
-                    showType:'show',
+                    showType:'fade',
+                    style:{
+                        right:'',
+                        bottom:''
+                    },
                     timeout:'3000'
                 });
             });

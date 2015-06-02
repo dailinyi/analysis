@@ -32,6 +32,7 @@ public class CommandServiceImpl implements CommandService {
     protected static final String GUARDIAN_STOP = PropertiesUtils.getProperty("config.default.guardian.stop");
     protected static final String SNORT_START = PropertiesUtils.getProperty("config.default.snort.start");
     protected static final String SNORT_STOP = PropertiesUtils.getProperty("config.default.snort.stop");
+    protected static final String IPTABLES_URL = PropertiesUtils.getProperty("config.default.iptables.url");
     protected static final Integer DEFAULT_LINE = Integer.valueOf(PropertiesUtils.getProperty("config.default.line"));
     @Override
     public String getSnortConfig(AnaConfig config) throws IOException{
@@ -299,6 +300,17 @@ public class CommandServiceImpl implements CommandService {
         String getGuardianStatusCmd = "ps -ef | grep guardian";
         String returnResult = SSHUtils.exec(config,getGuardianStatusCmd);
         return returnResult.split("\\n").length > 3;
+    }
+
+    @Override
+    public String getIptablesRules(AnaConfig config) throws  IOException{
+        if (StringUtils.isEmpty(config.getIptablesUrl())){
+            config.setIptablesUrl(IPTABLES_URL);
+        }
+
+        String command = "cat " + config.getIptablesUrl();
+
+        return SSHUtils.exec(config,command);
     }
 
 

@@ -35,7 +35,9 @@
             <div id="tabs" class="easyui-tabs"  fit="true" border="false">
                 <div title="欢迎使用" style="padding: 20px; overflow: hidden;" id="home">
                     <h1>
-                        Welcome !
+                        Welcome!
+                        <div style="margin:10px 0;"></div>
+                        <%@include file="include/snortStatus.jsp"%>
                     </h1>
                 </div>
 

@@ -62,7 +62,11 @@
                 $.messager.show({
                     title:'操作结果',
                     msg : '指令错误,请联系管理员!',
-                    showType:'show',
+                    showType:'fade',
+                    style:{
+                        right:'',
+                        bottom:''
+                    },
                     timeout:'3000'
                 });
                 return;
@@ -80,7 +84,11 @@
                 $.messager.show({
                     title:'操作结果',
                     msg : result,
-                    showType:'show',
+                    showType:'fade',
+                    style:{
+                        right:'',
+                        bottom:''
+                    },
                     timeout:'3000'
                 });
             });
@@ -167,7 +175,11 @@
             $.messager.show({
                 title:'操作结果',
                 msg : '指令错误,请联系管理员!',
-                showType:'show',
+                showType:'fade',
+                style:{
+                    right:'',
+                    bottom:''
+                },
                 timeout:'3000'
             });
             return;
@@ -185,7 +197,11 @@
             $.messager.show({
                 title:'操作结果',
                 msg : result,
-                showType:'show',
+                showType:'fade',
+                style:{
+                    right:'',
+                    bottom:''
+                },
                 timeout:'3000'
             });
         });

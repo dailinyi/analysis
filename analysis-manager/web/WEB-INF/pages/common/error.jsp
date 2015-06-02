@@ -21,7 +21,11 @@
             $.messager.show({
                 title:'操作结果',
                 msg : result,
-                showType:'show',
+                showType:'fade',
+                style:{
+                    right:'',
+                    bottom:''
+                },
                 timeout:'3000'
             });
         });

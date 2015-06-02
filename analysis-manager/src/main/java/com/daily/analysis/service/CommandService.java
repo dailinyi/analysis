@@ -47,4 +47,6 @@ public interface CommandService {
     void setGuardianStop(AnaConfig config) throws IOException;
 
     boolean getGuardianStatus(AnaConfig config) throws IOException;
+
+    String getIptablesRules(AnaConfig config) throws  IOException;
 }
